@@ -10,7 +10,7 @@ Arquivos:
 | `index.html` | Aplicação final, com a busca |
 | `README.md` | Este documento |
 | `ia.md` | Registro das perguntas feitas à IA e do que foi aproveitado |
-| `evidencias/` | Prints dos testes |
+| `testes/` | Prints dos testes (evidências) |
 
 ---
 
@@ -125,18 +125,31 @@ No template:
 
 ## Parte 3 · Testes
 
-Dados iniciais: "Estudar" (pendente) e "Ler capítulo" (concluída).
+Testes feitos manualmente no navegador (Chrome), abrindo o `index.html`. Os prints estão na pasta `testes/`.
 
-| # | Cenário | Passos | Resultado esperado | Obtido | Evidência |
-|---|---|---|---|---|---|
-| 1 | Campo vazio | Abrir a página sem digitar na busca | As 2 tarefas aparecem, cada uma na sua lista; sem aviso | _ | `evidencias/01-vazio.png` |
-| 2 | Palavra existente | Digitar `estudar` | Só "Estudar" em Pendentes; Concluídas vazia; sem aviso | _ | `evidencias/02-existente.png` |
-| 3 | Sem resultado | Digitar `xyz` | Listas vazias; aviso _Nenhuma tarefa encontrada para "xyz"_ | _ | `evidencias/03-sem-resultado.png` |
-| 4a | Incluir com filtro (casa) | Busca `estudar`, adicionar "Estudar Vue" | "Estudar Vue" aparece em Pendentes junto com "Estudar" | _ | `evidencias/04a-incluir-casa.png` |
-| 4b | Incluir com filtro (não casa) | Busca `estudar`, adicionar "Comprar pão"; depois limpar a busca | Não aparece enquanto filtra; aparece ao limpar a busca | _ | `evidencias/04b-incluir-nao-casa.png` |
-| 5a | Concluir tarefa filtrada | Busca `vue`, marcar "Estudar Vue" | Vai para Concluídas; ao limpar a busca continua concluída | _ | `evidencias/05a-concluir.png` |
-| 5b | Excluir tarefa filtrada | Tarefas: Estudar, Estudar Vue (pendentes). Busca `vue`, excluir "Estudar Vue" | Some só "Estudar Vue"; ao limpar a busca, "Estudar" continua lá | _ | `evidencias/05b-excluir.png` |
-| 6a | Modo escuro sem filtro | Ligar modo escuro, busca vazia | Card e itens escuros; todas as tarefas visíveis | _ | `evidencias/06a-escuro.png` |
-| 6b | Modo escuro com filtro | Modo escuro + busca `xyz` e depois `estudar` | Aviso legível no tema escuro; itens filtrados com classes escuras | _ | `evidencias/06b-escuro-filtro.png` |
+Dados iniciais: "Estudar" (pendente) e "Ler capítulo" (concluída). Os testes foram feitos em sequência, então a lista muda de um teste para o outro.
 
-> O teste 5b é o mais importante: no código original (exclusão por índice) ele apagaria a tarefa errada.
+### Cenários pedidos no enunciado
+
+| # | Cenário | O que fiz | Resultado obtido | Evidência |
+|---|---|---|---|---|
+| 1 | Campo vazio | Abri a página sem digitar na busca | ✅ As 2 tarefas aparecem, cada uma na sua lista, sem aviso | `teste1.png` |
+| 2 | Busca por palavra existente | Digitei `jogar` | ✅ Só "Jogar bola" aparece (em Concluídas); Pendentes fica vazia | `teste6 buscar tarefa.png` |
+| 3 | Busca sem resultado | Digitei `estudar` depois de excluir a tarefa "Estudar" | ✅ Listas vazias e o aviso _Nenhuma tarefa encontrada para "estudar"_ | `teste7 busca sem resultado.png` |
+| 4 | Inclusão com filtro ativo | Com `vue` na busca, adicionei "Aprender vue" | ✅ A tarefa apareceu na hora em Pendentes, junto com "Estudar vue", porque contém o termo buscado | `teste8 vue filtrado.png` |
+| 5a | Conclusão de tarefa filtrada | — | ⏳ Pendente: o print de conclusão (`teste4`) foi feito sem filtro | — |
+| 5b | Exclusão de tarefa filtrada | Com `vue` na busca, excluí "Aprender vue" | ✅ Só "Aprender vue" foi removida; "Estudar vue" continuou na lista | `teste9 excluir vue filtrado.png` |
+| 6a | Modo escuro sem filtro | Liguei o modo escuro com a busca vazia | ✅ Card, itens e textos ficam escuros; todas as tarefas visíveis | `teste2 modo escuro.png` |
+| 6b | Modo escuro com filtro | — | ⏳ Pendente | — |
+
+### Testes das funções originais (sem filtro)
+
+| # | Cenário | O que fiz | Resultado obtido | Evidência |
+|---|---|---|---|---|
+| 7 | Adicionar tarefa | Digitei "Jogar bola" e cliquei em adicionar | ✅ A tarefa apareceu em Pendentes | `teste3 adicionar tarefa.png` |
+| 8 | Concluir tarefa | Marquei o checkbox de "Jogar bola" | ✅ A tarefa passou de Pendentes para Concluídas | `teste4 marcar concluida.png` |
+| 9 | Excluir tarefa | Cliquei em excluir em "Estudar" | ✅ A tarefa sumiu e Pendentes ficou vazia | `teste5 excluir estudar.png` |
+
+### Por que o teste 5b é o mais importante
+
+Na lista filtrada por `vue`, "Aprender vue" estava na **posição 1**. No array `tarefas`, as primeiras posições são das tarefas mais antigas (como "Ler capítulo" e "Jogar bola"), então a posição 1 é outra tarefa, que nem aparece na busca. No código original, que excluía pelo índice, clicar em excluir faria `splice(1, 1)` no array completo e apagaria essa tarefa antiga, e "Aprender vue" continuaria na tela. Com o `id`, a exclusão procura a tarefa pelo identificador dela, e só a tarefa clicada foi removida.
