@@ -1,6 +1,6 @@
 # Web2 · Tarefa 001b — Raio X e evolução do produto
 
-Dupla: Rafael Lourenço
+Aluno: Rafael Lourenço
 
 Arquivos:
 
@@ -61,7 +61,7 @@ A tela é consequência do estado. Qualquer mudança em `modoEscuro`, `novaTaref
 ### 6. Trecho que seria difícil de alterar se o produto crescesse
 
 - **As duas listas são blocos duplicados**: o mesmo `v-for` sobre o array inteiro, diferenciado só pelo `v-if`. Qualquer mudança (um filtro, por exemplo) precisa ser feita duas vezes, e cada tarefa é percorrida duas vezes.
-- **A identificação por índice** (`key` e `excluirTarefa(indice)`). O índice só vale enquanto a lista exibida é igual ao array. Se a lista exibida for filtrada ou ordenada, o índice da tela deixa de ser o índice do array e a exclusão **apaga a tarefa errada**. Foi exatamente isso que tivemos de resolver na Parte 2.
+- **A identificação por índice** (`key` e `excluirTarefa(indice)`). O índice só vale enquanto a lista exibida é igual ao array. Se a lista exibida for filtrada ou ordenada, o índice da tela deixa de ser o índice do array e a exclusão **apaga a tarefa errada**. Foi exatamente isso que tive de resolver na Parte 2.
 - O ternário de classes do modo escuro se repete em 3 lugares.
 
 ### Problemas observados no original (não corrigidos, fora do escopo)
@@ -114,12 +114,12 @@ No template:
 
 ### Decisões técnicas
 
-- **Por que `computed` e não um método ou uma segunda lista?** O filtro é um valor *derivado* de `tarefas` + `busca`. Com `computed`, o Vue recalcula sozinho quando qualquer um dos dois muda e guarda o resultado em cache enquanto eles não mudam. Uma segunda lista em `data()` duplicaria os dados, e teríamos que lembrar de atualizá-la em todo `push`, `splice` e checkbox. O enunciado pede exatamente isso: não duplicar a lista original e não alterar os dados só para exibir.
+- **Por que `computed` e não um método ou uma segunda lista?** O filtro é um valor *derivado* de `tarefas` + `busca`. Com `computed`, o Vue recalcula sozinho quando qualquer um dos dois muda e guarda o resultado em cache enquanto eles não mudam. Uma segunda lista em `data()` duplicaria os dados, e eu teria que lembrar de atualizá-la em todo `push`, `splice` e checkbox. O enunciado pede exatamente isso: não duplicar a lista original e não alterar os dados só para exibir.
 - **`filter` não altera `tarefas`**: ele devolve um array novo, mas com **os mesmos objetos**. Por isso marcar o checkbox de uma tarefa filtrada (`v-model="tarefa.concluida"`) altera o objeto original, e a tarefa muda de lista normalmente.
 - **Campo vazio mostra tudo**: `'qualquer texto'.includes('')` é sempre `true`, então sem termo nenhuma tarefa é filtrada. Não foi preciso criar um `if` especial.
 - **`toLowerCase()`**: "estudar" encontra "Estudar". O `trim()` faz com que espaços digitados sem querer não atrapalhem.
-- **Por que criamos `id`?** Com filtro, o índice que o `v-for` fornece é a posição na **lista filtrada**, não em `tarefas`. Exemplo: com `[Estudar, Ler capítulo, Estudar Vue]` e busca "vue", "Estudar Vue" aparece com índice 0. O `excluirTarefa(0)` original apagaria "Estudar". Com um `id` único por tarefa, a exclusão procura a posição real com `findIndex` e remove a tarefa certa. O `id` também passou a ser a `key`, que deve identificar o item, não a posição.
-- **Adicionar com filtro ativo**: a nova tarefa entra em `tarefas` normalmente, mas só aparece se o texto contiver o termo da busca. Isso é o comportamento esperado do filtro (a tela mostra a busca atual). Ao limpar a busca, a tarefa aparece. Optamos por não limpar a busca automaticamente, para o filtro continuar previsível.
+- **Por que criei o `id`?** Com filtro, o índice que o `v-for` fornece é a posição na **lista filtrada**, não em `tarefas`. Exemplo: com `[Estudar, Ler capítulo, Estudar Vue]` e busca "vue", "Estudar Vue" aparece com índice 0. O `excluirTarefa(0)` original apagaria "Estudar". Com um `id` único por tarefa, a exclusão procura a posição real com `findIndex` e remove a tarefa certa. O `id` também passou a ser a `key`, que deve identificar o item, não a posição.
+- **Adicionar com filtro ativo**: a nova tarefa entra em `tarefas` normalmente, mas só aparece se o texto contiver o termo da busca. Isso é o comportamento esperado do filtro (a tela mostra a busca atual). Ao limpar a busca, a tarefa aparece. Optei por não limpar a busca automaticamente, para o filtro continuar previsível.
 
 ---
 
