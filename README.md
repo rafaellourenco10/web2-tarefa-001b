@@ -137,10 +137,10 @@ Dados iniciais: "Estudar" (pendente) e "Ler capítulo" (concluída). Os testes f
 | 2 | Busca por palavra existente | Digitei `jogar` | ✅ Só "Jogar bola" aparece (em Concluídas); Pendentes fica vazia | `teste6 buscar tarefa.png` |
 | 3 | Busca sem resultado | Digitei `estudar` depois de excluir a tarefa "Estudar" | ✅ Listas vazias e o aviso _Nenhuma tarefa encontrada para "estudar"_ | `teste7 busca sem resultado.png` |
 | 4 | Inclusão com filtro ativo | Com `vue` na busca, adicionei "Aprender vue" | ✅ A tarefa apareceu na hora em Pendentes, junto com "Estudar vue", porque contém o termo buscado | `teste8 vue filtrado.png` |
-| 5a | Conclusão de tarefa filtrada | — | ⏳ Pendente: o print de conclusão (`teste4`) foi feito sem filtro | — |
+| 5a | Conclusão de tarefa filtrada | Com `vue` na busca, marquei o checkbox de "Estudar vue" | ✅ A tarefa passou para Concluídas e continuou aparecendo, porque ainda contém o termo buscado | `teste10 concluido com vue.png` |
 | 5b | Exclusão de tarefa filtrada | Com `vue` na busca, excluí "Aprender vue" | ✅ Só "Aprender vue" foi removida; "Estudar vue" continuou na lista | `teste9 excluir vue filtrado.png` |
 | 6a | Modo escuro sem filtro | Liguei o modo escuro com a busca vazia | ✅ Card, itens e textos ficam escuros; todas as tarefas visíveis | `teste2 modo escuro.png` |
-| 6b | Modo escuro com filtro | — | ⏳ Pendente | — |
+| 6b | Modo escuro com filtro | Com o modo escuro ligado e `vue` na busca (mesmo print do 5a) | ✅ Os itens filtrados aparecem com as classes escuras; o filtro e o tema funcionam juntos | `teste10 concluido com vue.png` |
 
 ### Testes das funções originais (sem filtro)
 
